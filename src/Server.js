@@ -8,6 +8,7 @@ export default class Math {
   }
 
   printName() {
+    // eslint-disable-next-line no-console
     console.log(`Hi ${this.name}!`);
   }
 }
