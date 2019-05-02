@@ -6,11 +6,13 @@
   "scripts": {
     "build": "webpack --mode production",
     "test": "jest",
-    "lint": "eslint ./src"
+    "lint": "eslint ./src ./cypress/integration",
+    "cypress": "cypress run"
   },
   "pre-commit": [
     "lint",
-    "test"
+    "test",
+    "cypress"
   ],
   "author": "",
   "license": "ISC",
