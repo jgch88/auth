@@ -1,14 +1,8 @@
-export default class Math {
-  constructor(name) {
-    this._name = name;
-  }
+const express = require('express');
 
-  get name() {
-    return this._name;
-  }
+const app = express();
+const port = 3000;
 
-  printName() {
-    // eslint-disable-next-line no-console
-    console.log(`Hi ${this.name}!`);
-  }
-}
+app.get('/', (req, res) => res.send('Hello World'));
+
+module.exports = app.listen(port, () => console.log(`Server running on port ${port}`));
