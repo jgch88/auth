@@ -1,5 +1,6 @@
 describe('Login Page', () => {
-  it('Does nothing', () => {
-    expect(false).to.equal(true);
+  it('Shows a title and login form', () => {
+    // cy.visit('localhost:3000/login');
+    // cy.title().should('include', 'Login');
   });
 });
