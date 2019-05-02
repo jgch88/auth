@@ -4,5 +4,5 @@ module.exports = {
       { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" }
     ]
   },
-  entry: './src/main.js'
+  entry: './src/Server.js'
 }
