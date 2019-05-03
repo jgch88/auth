@@ -1,0 +1,46 @@
+Mental Model
+
+Server needs to be stateless.
+
+We need users to prove their identity and authenticate
+via a username/password.
+
+But we only want users to login once, not have to log in
+every single time they produce an action.
+
+How might we allow users to maintain identity without
+multiple logins?
+
+Server issues a token/cookie to the user, and creates 
+a session for this user.
+
+Users just need to produce this token/cookie every time 
+they make a request, and server will know which user is 
+making this request.
+
+Sessions can be closed upon user sign out, or upon session
+duration expiry.
+
+---
+Sometimes, users are not all created equal.
+
+There could be various roles, such as admin, manager, user
+which are authorised only to do specific actions.
+
+How might we write our code in a way that authorises
+our routes/apis/database queries to various roles
+without cluttering the code? (There is a concept known
+as Aspect Oriented Programming (cross-cutting concerns).)
+
+Typically this is implemented by decorators.
+
+---
+Questions
+
+Just as user/password can be intercepted if kept as
+plain text, can't the token/cookie also be intercepted?
+
+If we use HTTPS to encrypt the data, why don't we just
+send our login credentials every single time? Is it
+the overhead of checking authentication that leads
+us to prefer just checking the token?

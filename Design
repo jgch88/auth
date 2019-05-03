@@ -1,0 +1,63 @@
+Information is stored as as a User entity.
+
+CRC Cards
+
+***
+User
+
+Responsibilities
+Knows username
+Knows password
+***
+UserToken
+
+Responsibilities
+Knows token (some kind of encrypted hash?)
+***
+Authenticator
+
+Responsibilites
+Logs a user in
+Takes a user and checks it against a repository
+
+Collaborators
+UserService
+SessionService
+***
+UserService
+
+Responsibilities
+Communicate with repository to CRUD
+
+Collaborators
+UserRepository
+
+***
+UserRepository
+
+Responsibilities
+Unique usernames
+User Persistence within some kind of memory/db
+
+Collaborators
+Database
+***
+SessionService
+
+Responsibilities
+Tracks logged in users
+
+
+Sequence Diagram
+Actor -> login(loginAttempt) : Authenticator -> getUser(username) : UserService -> (Additional UserRepository step)
+                                             -> createSession(user) : SessionService
+         success? return cookie              <-
+
+Actor -> view /protected route : Controller -> isLoggedIn(token) : SessionService
+         success? return view               <-
+
+
+loginAttempt = {
+  username
+  password
+}

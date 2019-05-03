@@ -1,8 +1,12 @@
-Boilerplate setup for eslint, jest, webpack, babel.
+Requirements
 
-Works with VSCode eslint/jest extensions.
+E2E Tests (Use cases)
+Frontend to API
+User should be able to log in with a username and password
+User should not be able to access '/protected' unless logged in
 
-eslint config in package.json
-.babelrc
-webpack.config.js (compiles from src/ to dist/)
+(Implicit)
+User should be able to log out
 
+(Things that can change)
+How long is the user logged in?
