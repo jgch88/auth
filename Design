@@ -49,9 +49,9 @@ Tracks logged in users
 
 
 Sequence Diagram
-Actor -> login(loginAttempt) : Authenticator -> getUser(username) : UserService -> (Additional UserRepository step)
-                                             -> createSession(user) : SessionService
-         success? return cookie              <-
+Actor -> POST /login(loginAttempt) : Controller -> login(loginAttempt) : Authenticator -> getUser(username) : UserService -> (Additional UserRepository step)
+                                                -> createSession(user) : SessionService
+         success? return cookie                 <-
 
 Actor -> view /protected route : Controller -> isLoggedIn(token) : SessionService
          success? return view               <-

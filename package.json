@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./src/Server.js",
     "build": "webpack --mode production",
-    "test": "jest",
+    "test": "jest --coverage",
     "lint": "eslint ./src ./cypress/integration",
     "cypress": "cypress run",
     "test-frontend": "start-server-and-test start http://localhost:3000 cypress"

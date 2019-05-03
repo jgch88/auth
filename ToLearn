@@ -1,0 +1,18 @@
+Learning Goals
+
+Figure out how to use CRC/Sequence Diagrams to plan/design code classes
+
+Figure out how to test cookies
+
+Figure out how to test API controllers
+
+Figure out mocking/integration tests
+
+Figure out the nuance behind testing that a route returns the correct html page
+vs the route having a login form (it returns correct html page vs it allows user
+to enter login attempt, i.e. testing for implementation vs testing for behavior?)
+
+Figure out how to replace own implementation with libraries
+such as passport.js and still maintain the tests (testing of 3rd party library integration)
+
+Figure out how to write clean code (SOLID OOP, AOP)
