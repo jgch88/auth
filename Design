@@ -28,6 +28,7 @@ UserService
 
 Responsibilities
 Communicate with repository to CRUD
+- Get User login details (LoD)
 
 Collaborators
 UserRepository
