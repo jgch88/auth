@@ -2,7 +2,7 @@ import SessionService from './SessionService';
 
 const user = {
   username: 'user1',
-  password: '1234'
+  password: '1234',
 };
 
 let sessionService;
