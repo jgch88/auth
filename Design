@@ -3,13 +3,13 @@ Information is stored as as a User entity.
 CRC Cards
 
 ***
-User
+User (Value object/POJO)
 
 Responsibilities
 Knows username
 Knows password
 ***
-UserToken
+UserToken (Value object/POJO)
 
 Responsibilities
 Knows token (some kind of encrypted hash?)
