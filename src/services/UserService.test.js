@@ -14,7 +14,7 @@ const userService = new UserService(mockRepository);
 
 describe('UserService', () => {
   it('returns a user value object using getUser', async () => {
-    const user = await userService.getUserLoginDetails('user1');
+    const user = await userService.getUserCredentials('user1');
     expect(user).toHaveProperty('username');
     expect(user).toHaveProperty('password');
   });

@@ -7,7 +7,10 @@ export default class Authenticator {
   }
 
   async verifyLogin(loginAttempt) {
-    this._userService.getUserLoginDetails(loginAttempt.username);
+    const userCredentials = this._userService.getUserCredentials(loginAttempt.username);
+    if (userCredentials.password === loginAttempt.password) {
+      return true;
+    }
     return false;
   }
 }

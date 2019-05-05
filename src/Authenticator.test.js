@@ -12,8 +12,7 @@ const loginAttempt = {
 
 const stubUserService = {
   // eslint-disable-next-line no-unused-vars
-  getUserLoginDetails(user) {
-    // check loginAttempt against user credentials
+  getUserCredentials(username) {
     return testUserCredentials;
   },
 };
@@ -24,5 +23,13 @@ describe('Authenticator', () => {
   it('validates a login attempt', async () => {
     const authenticated = await authenticator.verifyLogin(loginAttempt);
     expect(authenticated).toBe(false);
+  });
+
+  it('validates login attempts by comparing the login attempt with user credentials', async () => {
+    let authenticated = await authenticator.verifyLogin(loginAttempt);
+    expect(authenticated).toBe(false);
+
+    authenticated = await authenticator.verifyLogin(testUserCredentials);
+    expect(authenticated).toBe(true);
   });
 });
