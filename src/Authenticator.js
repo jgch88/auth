@@ -7,7 +7,7 @@ export default class Authenticator {
   }
 
   async verifyLogin(loginAttempt) {
-    const userCredentials = this._userService.getUserCredentials(loginAttempt.username);
+    const userCredentials = await this._userService.getUserCredentials(loginAttempt.username);
     if (userCredentials.password === loginAttempt.password) {
       return true;
     }

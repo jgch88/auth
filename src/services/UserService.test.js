@@ -1,6 +1,6 @@
 import UserService from './UserService';
 
-const mockRepository = {
+const stubRepository = {
   // mocking that api works, not api works correctly (that's for the repository's test)
   getUser(username) {
     return {
@@ -10,7 +10,7 @@ const mockRepository = {
   },
 };
 
-const userService = new UserService(mockRepository);
+const userService = new UserService(stubRepository);
 
 describe('UserService', () => {
   it('returns a user value object using getUser', async () => {
