@@ -1,16 +1,14 @@
 import Authenticator from '../Authenticator';
 import UserService from '../services/UserService';
+import InMemoryRepository from '../services/InMemoryRepository';
 
 let authenticator;
 let userService;
+let inMemoryRepository;
 
-const stubRepository = {
-  getUser(username) {
-    return {
-      username,
-      password: '1234',
-    };
-  },
+const user1 = {
+  username: 'user1',
+  password: '1234',
 };
 
 const invalidLoginAttempt = {
@@ -24,8 +22,11 @@ const validLoginAttempt = {
 };
 
 beforeEach(() => {
-  userService = new UserService(stubRepository);
+  inMemoryRepository = new InMemoryRepository();
+  userService = new UserService(inMemoryRepository);
   authenticator = new Authenticator(userService);
+
+  inMemoryRepository.addUser(user1);
 });
 
 describe('Integration', () => {
