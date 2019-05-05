@@ -12,4 +12,9 @@ export default class SessionService {
   get users() {
     return this._users;
   }
+
+  // simply return the username as a cookie
+  getCookie(user) {
+    return this._users.find(u => u === user.username);
+  }
 }

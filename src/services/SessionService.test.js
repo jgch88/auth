@@ -21,4 +21,10 @@ describe('SessionService', () => {
     sessionService.addUser(user);
     expect(sessionService.users).toEqual(expect.arrayContaining([user.username]));
   });
+
+  it('creates a cookie for added users', () => {
+    sessionService.addUser(user);
+    const cookie = sessionService.getCookie(user);
+    expect(cookie).toBeDefined();
+  });
 });
