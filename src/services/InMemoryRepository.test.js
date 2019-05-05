@@ -11,6 +11,11 @@ const user1 = {
   password: 'password1',
 };
 
+const user2 = {
+  username: 'user2',
+  password: 'password2',
+};
+
 describe('Repository', () => {
   describe('in memory implementation', () => {
     it('can store and retrieve users', () => {
@@ -20,6 +25,16 @@ describe('Repository', () => {
 
       user = inMemoryRepository.getUser('fakeUser');
       expect(user).toBe(undefined);
+    });
+
+    it('it stores unique usernames', () => {
+      inMemoryRepository.addUser(user1);
+      expect(() => {
+        inMemoryRepository.addUser(user1);
+      }).toThrow(`Username ${user1.username} already exists.`);
+      expect(() => {
+        inMemoryRepository.addUser(user2);
+      }).not.toThrow();
     });
   });
 });

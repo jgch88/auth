@@ -4,6 +4,12 @@ export default class InMemoryRepository {
   }
 
   addUser(user) {
+    const existingUser = this._users.find(u => u.username === user.username);
+
+    if (existingUser) {
+      throw new Error(`Username ${existingUser.username} already exists.`);
+    }
+
     this._users.push(user);
   }
 
