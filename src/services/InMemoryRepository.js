@@ -14,6 +14,12 @@ export default class InMemoryRepository {
   }
 
   getUser(username) {
-    return this._users.find(user => user.username === username);
+    const result = this._users.find(user => user.username === username);
+
+    if (!result) {
+      throw new Error(`Username ${username} not found.`);
+    }
+
+    return result;
   }
 }

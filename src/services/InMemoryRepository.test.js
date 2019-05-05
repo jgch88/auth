@@ -23,8 +23,9 @@ describe('Repository', () => {
       let user = inMemoryRepository.getUser(user1.username);
       expect(user).toEqual(user1);
 
-      user = inMemoryRepository.getUser('fakeUser');
-      expect(user).toBe(undefined);
+      expect(() => {
+        user = inMemoryRepository.getUser(user2.username);
+      }).toThrow(`Username ${user2.username} not found.`);
     });
 
     it('it stores unique usernames', () => {
