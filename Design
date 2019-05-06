@@ -56,7 +56,7 @@ Actor -> POST /login(loginAttempt) : Controller          -> verifyLogin(loginAtt
          success? return cookie (with unique session id) <-
 
 Goal: Access page when logged in
-Actor -> view /protected route : Controller -> isLoggedIn(sessionId) : SessionService
+Actor -> view /protected route : Controller -> verifySession(sessionId) : SessionService
          success? return view               <-
 
 

@@ -5,6 +5,8 @@ const user = {
   password: '1234',
 };
 
+const sessionId = 'someKindOfSessionId';
+
 let sessionService;
 
 beforeEach(() => {
@@ -13,18 +15,28 @@ beforeEach(() => {
 
 
 describe('SessionService', () => {
-  it('retrieves an array of logged in users', () => {
-    expect(sessionService.users).toEqual([]);
+  it('can display a map of logged in sessions', () => {
+    expect(sessionService.sessions).toEqual({});
   });
 
-  it('stores user sessions', () => {
-    sessionService.addUser(user);
-    expect(sessionService.users).toEqual(expect.arrayContaining([user.username]));
+  it('assigns a sessionId when creating a new user session', () => {
+    const newSessionId = sessionService.createSession(user);
+    expect(newSessionId).toEqual(sessionId); // use a mock "sessionId generator"
   });
 
-  it('creates a cookie for added users', () => {
-    sessionService.addUser(user);
-    const cookie = sessionService.getCookie(user);
-    expect(cookie).toBeDefined();
+  it('stores newly created user sessions', () => {
+    // iterate over the map and check that first entry's value is equal to username
+  });
+
+  it('verifies that a given sessionId exists and returns session information', () => {
+    expect(() => {
+      sessionService.verifySession('fakeSessionId');
+    }).toThrow('Session does not exist.');
+
+    /*
+    const sessionInfo = sessionService.verifySession(sessionId);
+    expect(sessionInfo).toHaveProperty('username');
+    expect(sessionInfo).toHaveProperty('sessionId');
+    */
   });
 });

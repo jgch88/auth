@@ -1,20 +1,23 @@
 // Session Service responsibility: to keep track of open user sessions
+// Keeps track via a mapping between sessionIds and usernames
 
 export default class SessionService {
   constructor() {
-    this._users = [];
+    this._sessions = {};
   }
 
-  addUser(user) {
-    this._users.push(user.username);
+  // eslint-disable-next-line
+  createSession(user) {
+    const sessionId = 'someKindOfSessionId';
+    return sessionId;
   }
 
-  get users() {
-    return this._users;
+  get sessions() {
+    return this._sessions;
   }
 
-  // simply return the username as a cookie
-  getCookie(user) {
-    return this._users.find(u => u === user.username);
+  // eslint-disable-next-line
+  verifySession(sessionId) {
+    throw new Error('Session does not exist.');
   }
 }
