@@ -25,18 +25,40 @@ beforeEach(() => {
   inMemoryRepository = new InMemoryRepository();
   userService = new UserService(inMemoryRepository);
   authenticator = new Authenticator(userService);
-
-  inMemoryRepository.addUser(user1);
 });
 
 describe('Integration', () => {
   describe('Authenticator, UserService, SessionService collaboration', () => {
     it('authenticates a user log in attempt correctly', async () => {
+      await userService.registerUser(user1);
+
       let authenticated = await authenticator.verifyLogin(invalidLoginAttempt);
       expect(authenticated).toBe(false);
 
       authenticated = await authenticator.verifyLogin(validLoginAttempt);
       expect(authenticated).toBe(true);
+    });
+
+    it('registering a new user allows the user credentials to be retrieved', async () => {
+      let userCredentials;
+      let errorMessage;
+      // async/await toThrow not working as expected in jest
+      try {
+        userCredentials = await userService.getUserCredentials(user1.username);
+      } catch (e) {
+        errorMessage = e.message;
+      }
+      expect(errorMessage).toBe(`Username ${user1.username} not found.`);
+      errorMessage = null;
+
+      await userService.registerUser(user1);
+      try {
+        userCredentials = await userService.getUserCredentials(user1.username);
+      } catch (e) {
+        errorMessage = e.message;
+      }
+      expect(userCredentials).toEqual(user1);
+      expect(errorMessage).toBe(null);
     });
   });
 });

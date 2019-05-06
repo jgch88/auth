@@ -9,7 +9,6 @@ import SessionService from './services/SessionService';
 
 const inMemoryRepository = new InMemoryRepository();
 const userService = new UserService(inMemoryRepository);
-// eslint-disable-next-line no-unused-vars
 const authenticator = new Authenticator(userService);
 // eslint-disable-next-line no-unused-vars
 const sessionService = new SessionService();
@@ -23,14 +22,19 @@ app.use(express.static('static'));
 app.get('/', (req, res) => res.send('Hello World'));
 
 app.get('/login', (req, res) => res.sendFile(path.join(__dirname, '/../views/login.html')));
-app.post('/login', (req, res) => res.status(401).send());
+app.post('/login', async (req, res) => {
+  const loginAttempt = req.body;
+  try {
+    await authenticator.verifyLogin(loginAttempt);
+    res.status(200).send();
+  } catch (e) {
+    res.status(401).send();
+  }
+});
 
-app.post('/register', (req, res) => {
-  // eslint-disable-next-line no-unused-vars
+app.post('/register', async (req, res) => {
   const newUser = req.body;
-
-  // TODO: validate new user
-  // TODO: catch duplicate users
+  await userService.registerUser(newUser);
   res.sendStatus(200);
 });
 

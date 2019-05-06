@@ -5,6 +5,10 @@ export default class UserService {
     this._userRepository = userRepository;
   }
 
+  async registerUser(user) {
+    await this._userRepository.addUser(user);
+  }
+
   async getUserCredentials(userName) {
     // extract only the necessary parts of the user object (may have other columns in db)
     // Law of Demeter "contract"
