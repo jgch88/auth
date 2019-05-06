@@ -51,12 +51,12 @@ Tracks logged in users
 
 Sequence Diagram
 Goal: Authenticate login
-Actor -> POST /login(loginAttempt) : Controller -> verifyLogin(loginAttempt) : Authenticator -> getUser(username) : UserService -> (Additional UserRepository step)
-                                                -> createSession(user) : SessionService
-         success? return cookie                 <-
+Actor -> POST /login(loginAttempt) : Controller          -> verifyLogin(loginAttempt) : Authenticator -> getUser(username) : UserService -> (Additional UserRepository step)
+                                                         -> createSession(user) : SessionService
+         success? return cookie (with unique session id) <-
 
 Goal: Access page when logged in
-Actor -> view /protected route : Controller -> isLoggedIn(token) : SessionService
+Actor -> view /protected route : Controller -> isLoggedIn(sessionId) : SessionService
          success? return view               <-
 
 
