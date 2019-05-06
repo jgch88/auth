@@ -1,16 +1,22 @@
 import SessionService from './SessionService';
 
+const sessionId = 'someKindOfSessionId';
+
+const stubSessionIdGenerator = {
+  generateId() {
+    return sessionId;
+  },
+};
+
 const user = {
   username: 'user1',
   password: '1234',
 };
 
-const sessionId = 'someKindOfSessionId';
-
 let sessionService;
 
 beforeEach(() => {
-  sessionService = new SessionService();
+  sessionService = new SessionService(stubSessionIdGenerator);
 });
 
 
@@ -19,24 +25,25 @@ describe('SessionService', () => {
     expect(sessionService.sessions).toEqual({});
   });
 
-  it('assigns a sessionId when creating a new user session', () => {
+  it('assigns a difficult to guess sessionId when creating a new user session', () => {
     const newSessionId = sessionService.createSession(user);
     expect(newSessionId).toEqual(sessionId); // use a mock "sessionId generator"
   });
 
   it('stores newly created user sessions', () => {
-    // iterate over the map and check that first entry's value is equal to username
+    expect(Object.keys(sessionService.sessions).length).toEqual(0);
+    sessionService.createSession(user);
+    expect(Object.keys(sessionService.sessions).length).toEqual(1);
   });
 
-  it('verifies that a given sessionId exists and returns session information', () => {
+  it('verifies that a given sessionId exists and returns username for that session', () => {
+    sessionService.createSession(user);
+
     expect(() => {
       sessionService.verifySession('fakeSessionId');
     }).toThrow('Session does not exist.');
 
-    /*
-    const sessionInfo = sessionService.verifySession(sessionId);
-    expect(sessionInfo).toHaveProperty('username');
-    expect(sessionInfo).toHaveProperty('sessionId');
-    */
+    const username = sessionService.verifySession(sessionId);
+    expect(username).toEqual(user.username);
   });
 });

@@ -2,13 +2,19 @@
 // Keeps track via a mapping between sessionIds and usernames
 
 export default class SessionService {
-  constructor() {
+  constructor(idGenerator) {
+    this._idGenerator = idGenerator;
     this._sessions = {};
   }
 
-  // eslint-disable-next-line
   createSession(user) {
-    const sessionId = 'someKindOfSessionId';
+    const sessionId = this._idGenerator.generateId();
+    /*
+    do {
+      sessionId = this._idGenerator.generateId();
+    } while (Object.keys(this._sessions).find(s => s === sessionId));
+    */
+    this._sessions[sessionId] = user.username;
     return sessionId;
   }
 
@@ -16,8 +22,11 @@ export default class SessionService {
     return this._sessions;
   }
 
-  // eslint-disable-next-line
   verifySession(sessionId) {
-    throw new Error('Session does not exist.');
+    const username = this._sessions[sessionId];
+    if (!username) {
+      throw new Error('Session does not exist.');
+    }
+    return username;
   }
 }
