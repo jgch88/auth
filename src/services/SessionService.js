@@ -8,6 +8,10 @@ export default class SessionService {
   }
 
   createSession(user) {
+    const users = Object.values(this._sessions);
+    if (users.find(u => u === user.username)) {
+      throw new Error('User session already exists.');
+    }
     const sessionId = this._idGenerator.generateId();
     /*
     do {

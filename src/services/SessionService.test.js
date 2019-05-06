@@ -1,10 +1,14 @@
 import SessionService from './SessionService';
 
-const sessionId = 'someKindOfSessionId';
-
+// simple autoincrementing implementation for stub
 const stubSessionIdGenerator = {
+  count: -1,
   generateId() {
-    return sessionId;
+    this.count += 1;
+    return this.count;
+  },
+  reset() {
+    this.count = -1;
   },
 };
 
@@ -13,9 +17,15 @@ const user = {
   password: '1234',
 };
 
+const user2 = {
+  username: 'user2',
+  password: '2345',
+};
+
 let sessionService;
 
 beforeEach(() => {
+  stubSessionIdGenerator.reset();
   sessionService = new SessionService(stubSessionIdGenerator);
 });
 
@@ -23,17 +33,25 @@ beforeEach(() => {
 describe('SessionService', () => {
   it('can display a map of logged in sessions', () => {
     expect(sessionService.sessions).toEqual({});
-  });
-
-  it('assigns a difficult to guess sessionId when creating a new user session', () => {
-    const newSessionId = sessionService.createSession(user);
-    expect(newSessionId).toEqual(sessionId); // use a mock "sessionId generator"
-  });
-
-  it('stores newly created user sessions', () => {
-    expect(Object.keys(sessionService.sessions).length).toEqual(0);
     sessionService.createSession(user);
-    expect(Object.keys(sessionService.sessions).length).toEqual(1);
+    sessionService.createSession(user2);
+
+    expect(sessionService.sessions).toEqual({
+      0: 'user1',
+      1: 'user2',
+    });
+  });
+
+  it('throws an error if user has already created a session', () => {
+    sessionService.createSession(user);
+    expect(() => {
+      sessionService.createSession(user);
+    }).toThrow('User session already exists.');
+  });
+
+  it('generates a sessionId when creating a new user session', () => {
+    const newSessionId = sessionService.createSession(user);
+    expect(newSessionId).toEqual(0);
   });
 
   it('verifies that a given sessionId exists and returns username for that session', () => {
@@ -43,7 +61,7 @@ describe('SessionService', () => {
       sessionService.verifySession('fakeSessionId');
     }).toThrow('Session does not exist.');
 
-    const username = sessionService.verifySession(sessionId);
+    const username = sessionService.verifySession(0);
     expect(username).toEqual(user.username);
   });
 });
