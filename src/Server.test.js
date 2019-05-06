@@ -11,7 +11,7 @@ const user2 = {
   password: 'password2',
 };
 
-/* How do I teardown/restart a singleton server?
+/* How do I teardown/restart a singleton server? So that I can reuse the same user for /register?
 beforeEach(() => {
   server = require('./Server');
 })
@@ -44,6 +44,13 @@ describe('server', () => {
         .post('/login')
         .send(user1);
       expect(response.status).toEqual(200);
+    });
+
+    it('sends client browser a cookie upon successful login', async () => {
+      const response = await request(server)
+        .post('/login')
+        .send(user1);
+      console.log(response);
     });
   });
 
