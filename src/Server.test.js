@@ -46,11 +46,13 @@ describe('server', () => {
       expect(response.status).toEqual(200);
     });
 
-    it('sends client browser a cookie upon successful login', async () => {
-      const response = await request(server)
+    it('requests client browser to set a cookie upon successful login', async () => {
+      // we need an agent to store the cookies like a browser, request(server) is inadequate
+      const agent = request.agent(server);
+      await agent
         .post('/login')
-        .send(user1);
-      console.log(response);
+        .send(user1)
+        .expect('set-cookie', `username=${user1.username}; Path=/`);
     });
   });
 
