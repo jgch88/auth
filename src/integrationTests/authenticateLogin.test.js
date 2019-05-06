@@ -1,10 +1,14 @@
 import Authenticator from '../Authenticator';
 import UserService from '../services/UserService';
 import InMemoryRepository from '../services/InMemoryRepository';
+import SessionService from '../services/SessionService';
+import IdGenerator from '../utils/IdGenerator';
 
 let authenticator;
 let userService;
 let inMemoryRepository;
+let idGenerator;
+let sessionService;
 
 const user1 = {
   username: 'user1',
@@ -25,6 +29,8 @@ beforeEach(() => {
   inMemoryRepository = new InMemoryRepository();
   userService = new UserService(inMemoryRepository);
   authenticator = new Authenticator(userService);
+  idGenerator = new IdGenerator();
+  sessionService = new SessionService(idGenerator);
 });
 
 describe('Integration', () => {
@@ -59,6 +65,14 @@ describe('Integration', () => {
       }
       expect(userCredentials).toEqual(user1);
       expect(errorMessage).toBe(null);
+    });
+  });
+
+  describe('SessionService, IdGenerator collaboration', () => {
+    it('session service delegates session id generation to IdGenerator', () => {
+      const newSessionId = sessionService.createSession(user1);
+      // console.log(sessionService.sessions);
+      expect(sessionService.verifySession(newSessionId)).toEqual(user1.username);
     });
   });
 });

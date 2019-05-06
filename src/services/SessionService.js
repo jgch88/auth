@@ -12,6 +12,7 @@ export default class SessionService {
     if (users.find(u => u === user.username)) {
       throw new Error('User session already exists.');
     }
+    // TODO: ensure generated sessionIds are unique
     const sessionId = this._idGenerator.generateId();
     /*
     do {
