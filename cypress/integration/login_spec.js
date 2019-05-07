@@ -25,5 +25,7 @@ describe('User Goals', () => {
     cy.get('#registerPasswordInput').type('password1');
     cy.get('#registerSignUpButton').click();
     cy.location('pathname').should('eq', '/register_success');
+    cy.get('h1').should('contain', 'Sign Up Successful!');
+    cy.get('#registerSuccessMessage').should('contain', 'Thanks for registering, user1.');
   });
 });

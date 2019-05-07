@@ -10,7 +10,7 @@
     "cypress": "cypress run",
     "cypress-open": "cypress open",
     "cypress-server": "start-server-and-test start http://localhost:3000 cypress-open",
-    "test-frontend": "start-server-and-test start http://localhost:3000 cypress",
+    "test-frontend": "npm run build-backend && start-server-and-test start http://localhost:3000 cypress",
     "build-backend": "babel ./src -d dist --ignore '**/*.test.js'",
     "css-build": "node-sass --omit-source-map-url sass/styles.scss static/css/styles.css"
   },

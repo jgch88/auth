@@ -48,6 +48,8 @@ app.post('/register', async (req, res) => {
   res.sendStatus(200);
 });
 
+app.get('/register_success', (req, res) => res.sendFile(path.join(__dirname, '/../views/register_success.html')));
+
 app.get('/protected', (req, res) => {
   try {
     const { sessionId } = req.cookies;
