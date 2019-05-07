@@ -41,6 +41,7 @@ app.post('/login', async (req, res) => {
   }
 });
 
+app.get('/register', (req, res) => res.sendFile(path.join(__dirname, '/../views/register.html')));
 app.post('/register', async (req, res) => {
   const newUser = req.body;
   await userService.registerUser(newUser);
