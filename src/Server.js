@@ -48,4 +48,8 @@ app.post('/register', async (req, res) => {
   res.sendStatus(200);
 });
 
+app.get('/protected', (req, res) => {
+  res.status(401).send();
+});
+
 module.exports = app.listen(port, () => console.log(`Server running on port ${port}`));

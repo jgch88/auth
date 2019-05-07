@@ -17,3 +17,8 @@ describe('Registration Page', () => {
     cy.get('#registerPasswordInput').type('password1');
   });
 });
+
+describe('User Goals', () => {
+  it('User can log in after registering', () => {
+  });
+});

@@ -84,4 +84,13 @@ describe('server', () => {
       expect(response.status).toEqual(200);
     });
   });
+
+  describe('/protected', () => {
+    it('returns HTTP status of 401 when user is not logged in', async () => {
+      const response = await request(server)
+        .get('/protected');
+
+      expect(response.status).toBe(401);
+    });
+  });
 });
