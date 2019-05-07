@@ -22,6 +22,8 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(express.static('static'));
 
+app.set('view engine', 'ejs');
+
 app.get('/', (req, res) => res.send('Hello World'));
 
 app.get('/login', (req, res) => res.sendFile(path.join(__dirname, '/../views/login.html')));
@@ -48,7 +50,9 @@ app.post('/register', async (req, res) => {
   res.sendStatus(200);
 });
 
-app.get('/register_success', (req, res) => res.sendFile(path.join(__dirname, '/../views/register_success.html')));
+app.get('/register_success', (req, res) => {
+  res.render('register_success', { username: 'user1' });
+});
 
 app.get('/protected', (req, res) => {
   try {
