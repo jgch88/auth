@@ -49,7 +49,13 @@ app.post('/register', async (req, res) => {
 });
 
 app.get('/protected', (req, res) => {
-  res.status(401).send();
+  try {
+    const { sessionId } = req.cookies;
+    const username = sessionService.verifySession(sessionId);
+    res.status(200).send(`Hello ${username}`);
+  } catch (e) {
+    res.status(401).send();
+  }
 });
 
 module.exports = app.listen(port, () => console.log(`Server running on port ${port}`));

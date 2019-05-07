@@ -89,8 +89,22 @@ describe('server', () => {
     it('returns HTTP status of 401 when user is not logged in', async () => {
       const response = await request(server)
         .get('/protected');
-
       expect(response.status).toBe(401);
+    });
+
+    it('returns HTTP status of 200 when user is logged in', async () => {
+      const agent = request.agent(server);
+      const notLoggedInresponse = await agent
+        .get('/protected');
+      expect(notLoggedInresponse.status).toBe(401);
+
+      await agent
+        .post('/login')
+        .send(user1);
+
+      const loggedInResponse = await agent
+        .get('/protected');
+      expect(loggedInResponse.status).toBe(200);
     });
   });
 });
