@@ -19,6 +19,11 @@ describe('Registration Page', () => {
 });
 
 describe('User Goals', () => {
-  it('User can log in after registering', () => {
+  it('User can register an account successfully', () => {
+    cy.visit('localhost:3000/register');
+    cy.get('#registerUsernameInput').type('user1');
+    cy.get('#registerPasswordInput').type('password1');
+    cy.get('#registerSignUpButton').click();
+    cy.location('pathname').should('eq', '/register_success');
   });
 });
