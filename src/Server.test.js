@@ -11,6 +11,10 @@ const user2 = {
   password: 'password2',
 };
 
+const user3 = {
+  username: 'user3',
+  password: 'password3',
+};
 /* How do I teardown/restart a singleton server? So that I can reuse the same user for /register?
 beforeEach(() => {
   server = require('./Server');
@@ -28,12 +32,27 @@ describe('server', () => {
   });
 
   describe('/login', () => {
-    it('returns HTTP status 401 when login is invalid', async () => {
+    it('returns HTTP status 404 when login user is not found', async () => {
       const response = await request(server)
         .post('/login')
         .send(user1);
+      expect(response.status).toEqual(404);
+    });
+
+    it('returns HTTP status 401 when user is found but password is invalid', async () => {
+      await request(server)
+        .post('/register')
+        .send(user3);
+
+      const response = await request(server)
+        .post('/login')
+        .send({
+          username: 'user3',
+          password: 'wrongpassword',
+        });
       expect(response.status).toEqual(401);
     });
+
 
     it('allows registered users to login', async () => {
       await request(server)
@@ -46,13 +65,14 @@ describe('server', () => {
       expect(response.status).toEqual(200);
     });
 
-    it('requests client browser to set a cookie upon successful login', async () => {
+    it('requests client browser to set a session cookie upon successful login', async () => {
       // we need an agent to store the cookies like a browser, request(server) is inadequate
       const agent = request.agent(server);
-      await agent
+      const response = await agent
         .post('/login')
         .send(user1)
-        .expect('set-cookie', `username=${user1.username}; Path=/`);
+        .expect('set-cookie', /^sessionId=[a-z0-9]{1,12}; Path=\/$/g);
+      expect(response.status).toEqual(200);
     });
   });
 

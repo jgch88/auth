@@ -7,12 +7,13 @@ import Authenticator from './Authenticator';
 import UserService from './services/UserService';
 import InMemoryRepository from './services/InMemoryRepository';
 import SessionService from './services/SessionService';
+import IdGenerator from './utils/IdGenerator';
 
 const inMemoryRepository = new InMemoryRepository();
 const userService = new UserService(inMemoryRepository);
 const authenticator = new Authenticator(userService);
-// eslint-disable-next-line no-unused-vars
-const sessionService = new SessionService();
+const idGenerator = new IdGenerator();
+const sessionService = new SessionService(idGenerator);
 
 const app = express();
 const port = 3000;
@@ -27,11 +28,16 @@ app.get('/login', (req, res) => res.sendFile(path.join(__dirname, '/../views/log
 app.post('/login', async (req, res) => {
   const loginAttempt = req.body;
   try {
-    await authenticator.verifyLogin(loginAttempt);
-    res.cookie('username', loginAttempt.username);
-    res.status(200).send();
+    const loginVerified = await authenticator.verifyLogin(loginAttempt);
+    if (loginVerified) {
+      const newSessionId = sessionService.createSession(loginAttempt);
+      res.cookie('sessionId', newSessionId);
+      res.status(200).send();
+    } else {
+      res.status(401).send(); // wrong password
+    }
   } catch (e) {
-    res.status(401).send();
+    res.status(404).send(); // user not found
   }
 });
 
@@ -40,19 +46,5 @@ app.post('/register', async (req, res) => {
   await userService.registerUser(newUser);
   res.sendStatus(200);
 });
-
-// cookie experiment on setting, testing for cookies
-/*
-app.get('/cookie', (req, res) => {
-  // send cookie if it exists
-  // the first time, req.cookies is an [Object: null prototype]{}
-  // subsequently, it displays the cookie
-  if (req.cookies) {
-    console.log(req.cookies);
-  }
-  res.cookie('cookieName', 'cookieValue');
-  res.sendStatus(200);
-});
-*/
 
 module.exports = app.listen(port, () => console.log(`Server running on port ${port}`));

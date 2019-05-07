@@ -8,17 +8,17 @@ export default class SessionService {
   }
 
   createSession(user) {
-    const users = Object.values(this._sessions);
-    if (users.find(u => u === user.username)) {
-      throw new Error('User session already exists.');
+    const sessionEntries = Object.entries(this._sessions);
+    const userIndex = sessionEntries.findIndex(e => e[1] === user.username);
+    if (userIndex !== -1) {
+      return sessionEntries[userIndex][0];
     }
-    // TODO: ensure generated sessionIds are unique
-    const sessionId = this._idGenerator.generateId();
-    /*
+
+    let sessionId;
     do {
       sessionId = this._idGenerator.generateId();
-    } while (Object.keys(this._sessions).find(s => s === sessionId));
-    */
+    } while (sessionId in this._sessions);
+
     this._sessions[sessionId] = user.username;
     return sessionId;
   }
