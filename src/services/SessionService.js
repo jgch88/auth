@@ -8,18 +8,31 @@ export default class SessionService {
   }
 
   createSession(user) {
+    const userSession = this._getUserSession(user);
+    if (userSession) {
+      return userSession;
+    }
+
+    const sessionId = this._generateUniqueSessionId();
+    this._sessions[sessionId] = user.username;
+    return sessionId;
+  }
+
+  _getUserSession(user) {
     const sessionEntries = Object.entries(this._sessions);
     const userIndex = sessionEntries.findIndex(e => e[1] === user.username);
     if (userIndex !== -1) {
       return sessionEntries[userIndex][0];
     }
+    return null;
+  }
 
+  _generateUniqueSessionId() {
     let sessionId;
     do {
       sessionId = this._idGenerator.generateId();
     } while (sessionId in this._sessions);
 
-    this._sessions[sessionId] = user.username;
     return sessionId;
   }
 
