@@ -46,12 +46,12 @@ app.post('/login', async (req, res) => {
 app.get('/register', (req, res) => res.sendFile(path.join(__dirname, '/../views/register.html')));
 app.post('/register', async (req, res) => {
   const newUser = req.body;
-  await userService.registerUser(newUser);
-  res.sendStatus(200);
-});
-
-app.get('/register_success', (req, res) => {
-  res.render('register_success', { username: 'user1' });
+  try {
+    await userService.registerUser(newUser);
+    res.json({ registrationSucceeded: true });
+  } catch (e) {
+    res.json({ registrationSucceeded: false });
+  }
 });
 
 app.get('/protected', (req, res) => {

@@ -4,30 +4,67 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Sign Up</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
   </head>
   <body>
     <div class="container">
       <h1 class="title">Sign Up</h1>
       <p class="subtitle">Create your personal account</p>
 
-      <div class="field">
-        <label class="label">Username</label>
-        <div class="control">
-          <input id="registerUsernameInput" class="input" type="text" placeholder="Enter your username">
+      <div id="registerFormContainer">
+        <div class="field">
+          <label class="label">Username</label>
+          <div class="control">
+            <input id="registerUsernameInput" class="input" type="text" placeholder="Enter your username">
+          </div>
         </div>
-      </div>
 
-      <div class="field">
-        <label class="label">Password</label>
-        <div class="control">
-          <input id="registerPasswordInput" class="input" type="password" placeholder="Enter your password">
+        <div class="field">
+          <label class="label">Password</label>
+          <div class="control">
+            <input id="registerPasswordInput" class="input" type="password" placeholder="Enter your password">
+          </div>
         </div>
-      </div>
 
-      <a class="button is-primary" 
-        id="registerSignUpButton"
-        href="/register_success">Sign Up</a>
+        <div style="display:none;" class="notification" id="registerErrorMessage" visible="false"></div>
+
+        <a class="button is-primary" id="registerSignUpButton">Sign Up</a>
+      </div>
     </div>
+    <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+    <script>
+      $(document).ready(function() {
+        $('#registerSignUpButton').click(function() {
+          const username = document.getElementById('registerUsernameInput').value;
+          const password = document.getElementById('registerPasswordInput').value;
+          const user = {
+            username,
+            password,
+          };
+
+          $.ajax({
+            type: 'POST',
+            url: '/register',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: JSON.stringify(user),
+          }).done(function(data) {
+            if (data.registrationSucceeded) {
+              $('#registerErrorMessage').hide();
+              $('#registerFormContainer').hide();
+              $('.title').text('Sign Up Successful!');
+              $('.subtitle').text(`Thanks for registering, ${username}.`);
+            } else {
+              $('#registerErrorMessage').text(`Something went wrong.`);
+              $('#registerErrorMessage').show();
+              console.log(data);
+            }
+          });
+        });
+      });
+    </script>
   </body>
 </html>
