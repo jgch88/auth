@@ -53,4 +53,13 @@ describe('User Goals', () => {
     cy.get('#registerSignUpButton').click();
     cy.get('#registerErrorMessage').should('contain', 'Something went wrong.');
   });
+
+  it('User cannot log in with wrong credentials', () => {
+    // user1 has already been registered once in the test above
+    cy.visit('localhost:3000/login');
+    cy.get('#loginUsernameInput').type(user1.username);
+    cy.get('#loginPasswordInput').type('wrongpassword');
+    cy.get('#loginButton').click();
+    cy.get('#loginErrorMessage').should('contain', 'Username or password invalid.');
+  });
 });

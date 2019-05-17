@@ -16,9 +16,7 @@
   },
   "pre-commit": [
     "lint",
-    "test",
     "build-backend",
-    "test-frontend"
   ],
   "author": "",
   "license": "ISC",
