@@ -18,6 +18,10 @@ export default class SessionService {
     return sessionId;
   }
 
+  removeSession(sessionId) {
+    delete this._sessions[sessionId];
+  }
+
   _getUserSession(user) {
     const sessionEntries = Object.entries(this._sessions);
     const userIndex = sessionEntries.findIndex(e => e[1] === user.username);
