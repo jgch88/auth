@@ -72,4 +72,15 @@ describe('User Goals', () => {
     cy.get('.title').should('contain', 'Login Successful!');
     cy.get('.subtitle').should('contain', `Logged in as: ${user1.username}.`);
   });
+
+  it('User can log in access /protected after logging in', () => {
+    cy.visit('localhost:3000/login');
+    cy.get('#loginUsernameInput').type(user1.username);
+    cy.get('#loginPasswordInput').type(user1.password);
+    cy.get('#loginButton').click();
+    cy.request('GET', 'localhost:3000/protected')
+      .then((response) => {
+        expect(response.status).to.eq(200);
+      });
+  });
 });
