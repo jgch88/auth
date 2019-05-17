@@ -114,10 +114,23 @@ describe('server', () => {
 
   describe('/logout', () => {
     it('allows the user to logout', async () => {
-      // cookie checking is in cypress
       const response = await request(server)
         .get('/logout');
       expect(response.status).toBe(200);
+    });
+
+    it('clears cookies on logout', async () => {
+      const agent = request.agent(server);
+      await agent
+        .post('/login')
+        .send(user1);
+
+      const loggedInResponse = await agent.get('/logout');
+      expect(loggedInResponse.request.cookies).toContain('sessionId');
+      // inspect the that the NEXT response's request has
+      // no sessionId cookie as evidence the agent's cookie is cleared
+      const loggedOutResponse = await agent.get('/');
+      expect(loggedOutResponse.request.cookies).not.toContain('sessionId');
     });
   });
 });
