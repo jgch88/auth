@@ -10,21 +10,60 @@
     <div class="container">
       <h1 class="title">Login</h1>
 
-      <div class="field">
-        <label class="label">Username</label>
-        <div class="control">
-          <input id="loginUsernameInput" class="input" type="text" placeholder="Enter your username">
+        <div id="loginFormContainer">
+        <div class="field">
+          <label class="label">Username</label>
+          <div class="control">
+            <input id="loginUsernameInput" class="input" type="text" placeholder="Enter your username">
+          </div>
         </div>
-      </div>
 
-      <div class="field">
-        <label class="label">Password</label>
-        <div class="control">
-          <input id="loginPasswordInput" class="input" type="password" placeholder="Enter your password">
+        <div class="field">
+          <label class="label">Password</label>
+          <div class="control">
+            <input id="loginPasswordInput" class="input" type="password" placeholder="Enter your password">
+          </div>
         </div>
-      </div>
 
-      <a class="button is-primary" id="loginButton">Login</a>
+          <div style="display:none;" class="notification" id="loginErrorMessage" visible="false"></div>
+
+        <a class="button is-primary" id="loginButton">Login</a>
+      </div>
     </div>
+    <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+    <script>
+      $(document).ready(function() {
+        $('#loginButton').click(function() {
+          const username = document.getElementById('loginUsernameInput').value;
+          const password = document.getElementById('loginPasswordInput').value;
+          const user = {
+            username,
+            password,
+          };
+
+          $.ajax({
+            type: 'POST',
+            url: '/login',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: JSON.stringify(user),
+          }).done(function(data, statusText, xhr) {
+            if (data.loginStatus === 'Success') {
+              $('#loginErrorMessage').hide();
+              $('#loginFormContainer').hide();
+              $('.title').text('Login Successful!');
+              $('.subtitle').text(`Logged in as: ${username}.`);
+            } else {
+              $('#loginErrorMessage').text(`${data.loginStatus}`);
+              $('#loginErrorMessage').show();
+              console.log(data);
+            }
+          });
+        });
+      });
+    </script>
   </body>
 </html>

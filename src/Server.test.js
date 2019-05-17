@@ -32,14 +32,16 @@ describe('server', () => {
   });
 
   describe('/login', () => {
-    it('returns HTTP status 404 when login user is not found', async () => {
+    it('returns correct login status response when login user is not found', async () => {
       const response = await request(server)
         .post('/login')
         .send(user1);
-      expect(response.status).toEqual(404);
+      expect(response.body).toEqual({
+        loginStatus: 'Username or password invalid.'
+      });
     });
 
-    it('returns HTTP status 401 when user is found but password is invalid', async () => {
+    it('returns correct login status response when user is found but password is invalid', async () => {
       await request(server)
         .post('/register')
         .send(user3);
@@ -50,7 +52,9 @@ describe('server', () => {
           username: 'user3',
           password: 'wrongpassword',
         });
-      expect(response.status).toEqual(401);
+      expect(response.body).toEqual({
+        loginStatus: 'Username or password invalid.'
+      });
     });
 
 

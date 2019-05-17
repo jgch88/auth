@@ -34,12 +34,14 @@ app.post('/login', async (req, res) => {
     if (loginVerified) {
       const newSessionId = sessionService.createSession(loginAttempt);
       res.cookie('sessionId', newSessionId);
-      res.status(200).send();
+      res.json({ loginStatus: 'Success' });
     } else {
-      res.status(401).send(); // wrong password
+      // wrong password
+      res.json({ loginStatus: 'Username or password invalid.' });
     }
   } catch (e) {
-    res.status(404).send(); // user not found
+    // user not found
+    res.json({ loginStatus: 'Username or password invalid.' });
   }
 });
 
