@@ -59,6 +59,10 @@ Goal: Access page when logged in
 Actor -> view /protected route : Controller -> verifySession(sessionId) : SessionService
          success? return view               <-
 
+Goal: Logout
+Actor -> GET /logout : Controller -> removeSession(user) : SessionService
+                   clear cookie   <-
+
 
 loginAttempt = {
   username
