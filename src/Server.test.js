@@ -111,4 +111,13 @@ describe('server', () => {
       expect(loggedInResponse.status).toBe(200);
     });
   });
+
+  describe('/logout', () => {
+    it('allows the user to logout', async () => {
+      // cookie checking is in cypress
+      const response = await request(server)
+        .get('/logout');
+      expect(response.status).toBe(200);
+    });
+  });
 });
