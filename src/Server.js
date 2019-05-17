@@ -66,4 +66,8 @@ app.get('/protected', (req, res) => {
   }
 });
 
+app.get('/logout', (req, res) => {
+  res.status(200).send();
+});
+
 module.exports = app.listen(port, () => console.log(`Server running on port ${port}`));
