@@ -16,7 +16,7 @@
   },
   "pre-commit": [
     "lint",
-    "build-backend",
+    "build-backend"
   ],
   "author": "",
   "license": "ISC",
