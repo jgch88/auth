@@ -80,4 +80,16 @@ describe('SessionService', () => {
     const sessionId2 = sessionService.createSession(user2);
     expect(sessionId1).not.toEqual(sessionId2);
   });
+
+  it('can remove a user session', () => {
+    const sessionId = sessionService.createSession(user);
+    const username = sessionService.verifySession(sessionId);
+    expect(username).toEqual(user.username);
+
+    sessionService.removeSession(sessionId);
+
+    expect(() => {
+      sessionService.verifySession(sessionId);
+    }).toThrow('Session does not exist.');
+  });
 });

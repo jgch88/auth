@@ -60,7 +60,7 @@ Actor -> view /protected route : Controller -> verifySession(sessionId) : Sessio
          success? return view               <-
 
 Goal: Logout
-Actor -> GET /logout : Controller -> removeSession(user) : SessionService
+Actor -> GET /logout : Controller -> removeSession(sessionId) : SessionService
                    clear cookie   <-
 
 
