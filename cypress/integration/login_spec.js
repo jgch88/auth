@@ -89,10 +89,17 @@ describe('User Goals', () => {
     cy.get('#loginUsernameInput').type(user1.username);
     cy.get('#loginPasswordInput').type(user1.password);
     cy.get('#loginButton').click();
-    cy.visit('localhost:3000/logout');
     cy.request('GET', 'localhost:3000/protected')
       .then((response) => {
-        expect(response.status).to.eq(401);
+        expect(response.status).to.eq(200);
       });
+    cy.visit('localhost:3000/logout');
+    cy.request({
+      method: 'GET',
+      url: 'localhost:3000/protected',
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(401);
+    });
   });
 });

@@ -67,7 +67,14 @@ app.get('/protected', (req, res) => {
 });
 
 app.get('/logout', (req, res) => {
-  res.status(200).send();
+  try {
+    const { sessionId } = req.cookies;
+    sessionService.verifySession(sessionId);
+    sessionService.removeSession(sessionId);
+    res.status(200).send('Logout successful');
+  } catch (e) {
+    res.status(200).send('No user logged in.'); // for sessionIds that don't exist
+  }
 });
 
 module.exports = app.listen(port, () => console.log(`Server running on port ${port}`));
