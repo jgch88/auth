@@ -62,4 +62,14 @@ describe('User Goals', () => {
     cy.get('#loginButton').click();
     cy.get('#loginErrorMessage').should('contain', 'Username or password invalid.');
   });
+
+  it('User can log in with correct credentials', () => {
+    // user1 has already been registered once in the test above
+    cy.visit('localhost:3000/login');
+    cy.get('#loginUsernameInput').type(user1.username);
+    cy.get('#loginPasswordInput').type(user1.password);
+    cy.get('#loginButton').click();
+    cy.get('.title').should('contain', 'Login Successful!');
+    cy.get('.subtitle').should('contain', `Logged in as: ${user1.username}.`);
+  });
 });

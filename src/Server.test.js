@@ -37,7 +37,7 @@ describe('server', () => {
         .post('/login')
         .send(user1);
       expect(response.body).toEqual({
-        loginStatus: 'Username or password invalid.'
+        loginStatus: 'Username or password invalid.',
       });
     });
 
@@ -53,7 +53,7 @@ describe('server', () => {
           password: 'wrongpassword',
         });
       expect(response.body).toEqual({
-        loginStatus: 'Username or password invalid.'
+        loginStatus: 'Username or password invalid.',
       });
     });
 
