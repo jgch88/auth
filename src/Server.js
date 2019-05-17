@@ -71,6 +71,7 @@ app.get('/logout', (req, res) => {
     const { sessionId } = req.cookies;
     sessionService.verifySession(sessionId);
     sessionService.removeSession(sessionId);
+    res.clearCookie('sessionId');
     res.status(200).send('Logout successful');
   } catch (e) {
     res.status(200).send('No user logged in.'); // for sessionIds that don't exist
