@@ -83,4 +83,16 @@ describe('User Goals', () => {
         expect(response.status).to.eq(200);
       });
   });
+
+  it('User cannot access /protected after logging out', () => {
+    cy.visit('localhost:3000/login');
+    cy.get('#loginUsernameInput').type(user1.username);
+    cy.get('#loginPasswordInput').type(user1.password);
+    cy.get('#loginButton').click();
+    cy.visit('localhost:3000/logout');
+    cy.request('GET', 'localhost:3000/protected')
+      .then((response) => {
+        expect(response.status).to.eq(401);
+      });
+  });
 });
